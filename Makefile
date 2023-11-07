@@ -1,5 +1,5 @@
 install:
-	poetry install
+	./build.sh
 
 start:
-	poetry run python manage.py runserver
+	gunicorn mysite.wsgi:application

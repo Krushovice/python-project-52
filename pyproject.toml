@@ -20,6 +20,7 @@ psycopg2-binary = "^2.9.9"
 django = "^4.2.7"
 dj-database-url = "^2.1.0"
 whitenoise = {extras = ["brotli"], version = "^6.6.0"}
+gunicorn = "^21.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"
