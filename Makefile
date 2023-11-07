@@ -2,4 +2,4 @@ install:
 	./build.sh
 
 start:
-	gunicorn mysite.wsgi:application
+	gunicorn task_manager.wsgi:application
