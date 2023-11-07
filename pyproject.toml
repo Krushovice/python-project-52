@@ -9,7 +9,7 @@ packages = [{include = "task_manager"}]
 [tool.poetry.dependencies]
 python = "^3.8.1"
 python-dotenv = "0.21.0"
-poetry = "1.6.1"
+poetry = "^1.6.1"
 pytest-cov = "^4.1.0"
 beautifulsoup4 = "4.12.2"
 Werkzeug = "2.2.2"
