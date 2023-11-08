@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG_ENV = os.getenv('DEBUG')
@@ -86,7 +87,7 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
 
-        default='postgresql://postgres:postgres@localhost:5432/task_manager',
+        default=DATABASE_URL,
         conn_max_age=600
     )
 }
