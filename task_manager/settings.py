@@ -28,8 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG_ENV = os.getenv('DEBUG')
-DEBUG = DEBUG_ENV if DEBUG_ENV else False
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'webserver']
 
@@ -117,13 +116,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ust-Nera'
+USE_L10N = False
 
 USE_I18N = True
 
 USE_TZ = True
 
-
+DATETIME_FORMAT = "d.m.Y H:i"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
