@@ -3,10 +3,10 @@ from django.db import models
 
 
 # Create your models here.
-class CustomUser(models.Model):
+class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    login = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True, null=True)
     pswrd = models.CharField(('password'), max_length=128)
     create_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)

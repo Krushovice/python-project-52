@@ -2,14 +2,6 @@
 
 {% load django_bootstrap5 i18n %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-{% block navbar %}
-  {% include 'navigation.html' %}
-{% endblock %}
-
 {% block content %}
 <div class="container wrapper flex-grow-1">
 
@@ -32,6 +24,7 @@
   </tr>
 </thead>
 <tbody>
+    {% if users %}
     {% for user in users %}
     <tr>
       <td>{{user.id}}</td>
@@ -45,6 +38,7 @@
       </td>
     </tr>
     {% endfor %}
+    {% endif %}
 </tbody>
 </table>
 

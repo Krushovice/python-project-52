@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
 ]
 
-# AUTH_USER_MODEL = 'users.CustomUser'
+# AUTH_USER_MODEL = 'users.User'
 
 ROOT_URLCONF = 'task_manager.urls'
 
