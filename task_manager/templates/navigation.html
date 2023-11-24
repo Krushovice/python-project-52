@@ -7,15 +7,15 @@
     <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/users/">{% translate "Users" %}</a>
+          <a class="nav-link" href="{% url 'users_index' %}">{% translate "Users" %}</a>
         </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/login/">{% translate "Login" %}</a>
+            <a class="nav-link" href="{% url 'login' %}">{% translate "Login" %}</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/users/create/">{% translate "Sign up" %}</a>
+            <a class="nav-link" href="{% url 'user_create' %}">{% translate "Sign up" %}</a>
           </li>
 
       </ul>
