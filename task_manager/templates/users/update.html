@@ -6,14 +6,14 @@
 {% block content %}
 <div class="container wrapper flex-grow-1">
 
-<h1 class="my-3">{% translate 'Update user' %}</h1>
+<h1 class="my-3">{% translate 'Update profile' %}</h1>
 
 <form action="{% url 'user_update' id=user_id %}" method="post">
     {% csrf_token %}
-    <table border="1">
-       {{ form }}
-    </table>
-    <input type="submit" value="{% translate 'Save' %}">
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    {% translate 'Update' as button_name %}
+    {% bootstrap_button button_type="submit" content=button_name %}
 </form>
 </div>
 {% endblock %}

@@ -10,10 +10,10 @@
 
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
-    <table border="1">
-       {{ form }}
-    </table>
-    <input type="submit" value="{% translate 'Sign in' %}">
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    {% translate 'Sign in' as button_name %}
+    {% bootstrap_button button_type="submit" content=button_name %}
 </form>
 </div>
 {% endblock %}

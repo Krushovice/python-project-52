@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django import forms
 from django.contrib.auth.forms import (UserCreationForm, PasswordChangeForm)
 from .models import CustomUser
 
@@ -10,10 +10,10 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['first_name', 'last_name', 'username']
 
 
-class CustomUserUpdateForm(PasswordChangeForm, ModelForm):
+class CustomUserUpdateForm(PasswordChangeForm, forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, *, user, **kwargs):
+        super().__init__(user, **kwargs)
 
     field_order = [
         'first_name',
