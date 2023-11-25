@@ -17,4 +17,4 @@ class CustomUser(AbstractUser):
         return reverse('user_delete', kwargs={'id': self.id})
 
     def __str__(self):
-        return self.login
+        return f'{self.first_name} {self.last_name}'

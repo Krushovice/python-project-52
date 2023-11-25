@@ -18,18 +18,3 @@ class LoginView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.html'
     next_page = reverse_lazy('index')
     success_message = _("You are logged in")
-    # def get(self, request, *args, **kwargs):
-    #     form = CustomUserLoginForm()
-    #     return render(request, 'login.html', {'form': form})
-
-    # def post(self, request, *args, **kwargs):
-    #     form = CustomUserLoginForm(request, data=request.POST)
-    #     if form.is_valid():
-    #         user = form.get_user()
-    #         login(request, user)
-    #         messages.success(request, 'User was logged in successfully')
-    #         return redirect('index')
-    #     else:
-    #         form = CustomUserLoginForm()
-    #         messages.error(request, 'Check username or password')
-    #         return render(request, 'login.html', {'form': form})
