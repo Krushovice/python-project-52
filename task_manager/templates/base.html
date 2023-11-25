@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load django_bootstrap5 i18n %}
 
-{# Load CSS and JavaScript #}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 <html lang="{% get_current_language as LANGUAGE_CODE %}">
@@ -13,13 +12,13 @@
   </head>
   <body class="d-flex flex-column min-vh-100">
     {% if user_logged_in %}
-      {% include 'logged_navbar.html' %}
+      {% include 'components/logged_navbar.html' %}
     {% else %}
-      {% include 'navigation.html' %}
+      {% include 'components/navigation.html' %}
     {% endif %}
-    {% include 'messages.html' %}
+    {% include 'components/messages.html' %}
     {% block content %}
     {% endblock content %}
     </body>
-  {% include 'footer.html' %}
+  {% include 'components/footer.html' %}
 </html>

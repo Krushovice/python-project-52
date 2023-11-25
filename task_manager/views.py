@@ -1,11 +1,11 @@
 from django.views.generic.base import TemplateView
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy, reverse
-from django.views import View
-from django.contrib.auth import authenticate, login, logout
-# from django.db import transaction
-from django.contrib import messages
-from task_manager.users.forms import UserLoginForm
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import View, LoginView, LogoutView
+# from django.contrib.auth import authenticate, login, logout
+from django.utils.translation import gettext_lazy as _
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 
 class IndexView(TemplateView):
@@ -16,31 +16,23 @@ class IndexView(TemplateView):
         return context
 
 
-class LoginView(View):
-    def get(self, request, *args, **kwargs):
-        # Получение данных из сессии, если они доступны
-        username = request.session.get('username')
-        password = request.session.get('password')
+class LoginView(SuccessMessageMixin, LoginView):
+    """User login page view."""
+    template_name = 'user/login.html'
+    next_page = reverse_lazy('index')
+    success_message = _("You are logged in")
+    # def get(self, request, *args, **kwargs):
+    #     form = CustomUserLoginForm()
+    #     return render(request, 'login.html', {'form': form})
 
-        form = UserLoginForm(initial={'username': username, 'password': password})
-        return render(request, 'login.html', {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            messages.success(request, 'User was logged in successfully')
-            return redirect('index')
-        else:
-            form = UserLoginForm()
-            messages.error(request, 'Check username or password')
-            return render(request, 'login.html', {'form': form})
-
-
-class LogoutView(View):
-    def post(self, request, *args, **kwargs):
-        logout(request)
-        messages.success(request, 'You have been logged out.')
-        return redirect('index')
+    # def post(self, request, *args, **kwargs):
+    #     form = CustomUserLoginForm(request, data=request.POST)
+    #     if form.is_valid():
+    #         user = form.get_user()
+    #         login(request, user)
+    #         messages.success(request, 'User was logged in successfully')
+    #         return redirect('index')
+    #     else:
+    #         form = CustomUserLoginForm()
+    #         messages.error(request, 'Check username or password')
+    #         return render(request, 'login.html', {'form': form})

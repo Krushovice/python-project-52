@@ -4,14 +4,14 @@ from django.views import View
 from django.contrib.auth import authenticate, login, logout
 # from django.db import transaction
 from django.contrib import messages
-from .models import User
-from .forms import UserCreationForm, UserUpdateForm, UserLoginForm
+from .models import CustomUser
+from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
 
 # Create your views here.
 class UsersIndexView(View):
     def get(self, request, *args, **kwargs):
-        users = User.objects.all()[:15]
+        users = CustomUser.objects.all()[:15]
         user_logged_in = request.user.is_authenticated
         return render(request, 'users/index.html', context={
             'users': users,
@@ -21,23 +21,26 @@ class UsersIndexView(View):
 
 class UserCreateView(View):
     def get(self, request, *args, **kwargs):
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         return render(request, 'users/create.html', context={
             'form': form,
         })
 
     def post(self, request, *args, **kwargs):
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('user_login')
+            return redirect('login')
+        return render(request, 'users/create.html', context={
+            'form': form,
+        })
 
 
 class UserUpdateView(View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
-        user = User.objects.get(id=user_id)
-        form = UserUpdateForm(instance=user)
+        user = CustomUser.objects.get(id=user_id)
+        form = CustomUserUpdateForm(instance=user)
 
         return render(request, 'users/update.html', context={
             'form': form,
@@ -46,11 +49,18 @@ class UserUpdateView(View):
 
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
-        user = User.objects.get(id=user_id)
-        form = UserUpdateForm(request.POST, instance=user)
+        user = CustomUser.objects.get(id=user_id)
+        form = CustomUserUpdateForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'User was updated successfully')
             return redirect('users_index')
+        else:
+            messages.error(request, 'Can not update')
+            return render(request, 'users/update.html', context={
+                'form': form,
+                'user_id': user_id,
+            })
 
 
 class UserDeleteView(View):

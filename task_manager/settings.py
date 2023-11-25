@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'task_manager',
-    'task_manager.tasks',
     'task_manager.users',
+    'task_manager.tasks',
+
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,8 @@ MIDDLEWARE = [
 ]
 
 CSRF_COOKIE_SECURE = False
-# AUTH_USER_MODEL = 'users.User'
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 ROOT_URLCONF = 'task_manager.urls'
 
