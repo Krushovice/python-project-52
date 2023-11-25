@@ -1,24 +1,21 @@
-from django.views.generic.base import TemplateView
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views import View, LoginView, LogoutView
+from django.views import View
+from django.contrib.auth.views import LoginView
 # from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import gettext_lazy as _
 from django.contrib.messages.views import SuccessMessageMixin
 
 
-
-class IndexView(TemplateView):
-    template_name = "index.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+class IndexView(View):
+    """Root index view for Anonumus and Logged user."""
+    def get(self, request, *args, **kwargs):
+        return render(request, 'index.html')
 
 
 class LoginView(SuccessMessageMixin, LoginView):
     """User login page view."""
-    template_name = 'user/login.html'
+    template_name = 'users/login.html'
     next_page = reverse_lazy('index')
     success_message = _("You are logged in")
     # def get(self, request, *args, **kwargs):
