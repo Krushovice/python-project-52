@@ -73,8 +73,11 @@ class UserUpdateView(View):
 
 
 class UserDeleteView(View):
-    def get(self, request, *args, **kwargs):
-        pass
-
     def post(self, request, *args, **kwargs):
-        pass
+        user_id = kwargs.get('id')
+        user = get_object_or_404(CustomUser, id=user_id)
+        if user:
+            msg_text = _('User is successfully deleted')
+            messages.success(request, msg_text)
+            user.delete()
+        return redirect('users_index')
