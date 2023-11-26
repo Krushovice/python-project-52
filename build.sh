@@ -8,5 +8,5 @@ poetry lock
 poetry install
 
 poetry run python manage.py collectstatic --no-input
-python manage.py migrate users zero
+poetry run python manage.py makemigrations
 poetry run python manage.py migrate
