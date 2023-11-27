@@ -11,10 +11,10 @@ class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_absolute_update_url(self):
-        return reverse('user_update', kwargs={'id': self.id})
+        return reverse('user_update', kwargs={'pk': self.id})
 
     def get_absolute_delete_url(self):
-        return reverse('user_delete', kwargs={'id': self.id})
+        return reverse('user_delete', kwargs={'pk': self.id})
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

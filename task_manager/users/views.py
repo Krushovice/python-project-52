@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views import View
 from django.utils.translation import gettext as _
 from django.contrib import messages
 from .models import CustomUser
+from .utils import UserAccessMixin
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
 
@@ -37,10 +38,14 @@ class UserCreateView(View):
         })
 
 
-class UserUpdateView(View):
+class UserUpdateView(UserAccessMixin, View):
     def get(self, request, *args, **kwargs):
-        user_id = kwargs.get('id')
-        user = get_object_or_404(CustomUser, id=user_id)
+        user_id = kwargs.get('pk')
+        user = get_object_or_404(CustomUser, pk=user_id)
+        if not self.check_user_access(user):
+            msg_txt = _('You do not have permission to change another user.')
+            messages.error(request, msg_txt)
+            return redirect('users_index')
         initial_data = {
             'first_name': user.first_name,
             'last_name': user.last_name,
@@ -55,8 +60,12 @@ class UserUpdateView(View):
         })
 
     def post(self, request, *args, **kwargs):
-        user_id = kwargs.get('id')
-        user = get_object_or_404(CustomUser, id=user_id)
+        user_id = kwargs.get('pk')
+        user = get_object_or_404(CustomUser, pk=user_id)
+        if not self.check_user_access(user):
+            msg_txt = _('You do not have permission to change another user.')
+            messages.error(request, msg_txt)
+            return redirect('users_index')
         form = CustomUserUpdateForm(user=user,
                                     data=request.POST,
                                     instance=user)
@@ -72,11 +81,15 @@ class UserUpdateView(View):
         })
 
 
-class UserDeleteView(View):
+class UserDeleteView(UserAccessMixin, View):
     def post(self, request, *args, **kwargs):
-        user_id = kwargs.get('id')
-        user = get_object_or_404(CustomUser, id=user_id)
+        user_id = kwargs.get('pk')
+        user = get_object_or_404(CustomUser, pk=user_id)
         if user:
+            if not self.check_user_access(user):
+                msg_txt = _('You do not have permission to delete another user.')
+                messages.error(request, msg_txt)
+                return redirect('users_index')
             msg_text = _('User is successfully deleted')
             messages.success(request, msg_text)
             user.delete()

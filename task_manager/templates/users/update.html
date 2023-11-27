@@ -8,7 +8,7 @@
 
 <h1 class="my-3">{% translate 'Update profile' %}</h1>
 
-<form action="{% url 'user_update' id=user_id %}" method="post">
+<form action="{% url 'user_update' pk=user_id %}" method="post">
     {% csrf_token %}
     {% bootstrap_form_errors form %}
     {% bootstrap_form form %}
