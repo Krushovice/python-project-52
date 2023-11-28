@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import View
 from django.utils.translation import gettext as _
@@ -38,6 +40,7 @@ class UserCreateView(View):
         })
 
 
+@method_decorator(login_required, name='dispatch')
 class UserUpdateView(UserAccessMixin, View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
@@ -81,6 +84,7 @@ class UserUpdateView(UserAccessMixin, View):
         })
 
 
+@method_decorator(login_required, name='dispatch')
 class UserDeleteView(UserAccessMixin, View):
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')

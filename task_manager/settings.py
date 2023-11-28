@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from django.urls import reverse_lazy
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv  # Импортируем environ
@@ -66,6 +67,8 @@ MIDDLEWARE = [
 CSRF_COOKIE_SECURE = False
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+LOGIN_URL = reverse_lazy('login')
 
 ROOT_URLCONF = 'task_manager.urls'
 
