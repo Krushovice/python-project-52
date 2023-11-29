@@ -55,16 +55,17 @@ class TestUser(TestCase, Client):
         data = {
             'first_name': 'New Name',
             'last_name': 'New Last Name',
-            'username': 'new username',
+            'username': 'newusername',
             'old_password': 'oldpass123',
-            'new_password1': 'newpass23',
-            'new_password2': 'newpass23',
+            'new_password1': 'newpass123',
+            'new_password2': 'newpass123',
         }
         self.client.force_login(self.user)
         response = self.client.post(reverse('user_update',
                                             kwargs={'pk': self.user.id}),
                                     data)
-        self.assertEqual(response.status_code, 302)
+
+        self.assertRedirects(response, reverse('users_index'))
         self.assertContains(response, 'User is successfully updated')
 
     def test_delete_user(self):
