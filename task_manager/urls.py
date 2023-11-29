@@ -26,6 +26,6 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('index')),
          name='logout'),
-    path('tasks/', include('task_manager.tasks.urls')),
-    path('users/', include('task_manager.users.urls')),
+    path('tasks/', include('task_manager.task.urls')),
+    path('users/', include('task_manager.user.urls')),
 ]

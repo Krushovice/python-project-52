@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import View
 from django.utils.translation import gettext as _
@@ -40,22 +38,13 @@ class UserCreateView(View):
         })
 
 
-@method_decorator(login_required, name='dispatch')
 class UserUpdateView(UserAccessMixin, View):
+    login_url = reverse_lazy('login')
+
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(CustomUser, pk=user_id)
-        if not self.check_user_access(user):
-            msg_txt = _('You do not have permission to change another user.')
-            messages.error(request, msg_txt)
-            return redirect('users_index')
-        initial_data = {
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'username': user.username,
-
-        }
-        form = CustomUserUpdateForm(user=user, initial=initial_data)
+        form = CustomUserUpdateForm(user=user, instance=user)
 
         return render(request, 'users/update.html', context={
             'form': form,
@@ -65,10 +54,6 @@ class UserUpdateView(UserAccessMixin, View):
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(CustomUser, pk=user_id)
-        if not self.check_user_access(user):
-            msg_txt = _('You do not have permission to change another user.')
-            messages.error(request, msg_txt)
-            return redirect('users_index')
         form = CustomUserUpdateForm(user=user,
                                     data=request.POST,
                                     instance=user)
@@ -84,16 +69,13 @@ class UserUpdateView(UserAccessMixin, View):
         })
 
 
-@method_decorator(login_required, name='dispatch')
 class UserDeleteView(UserAccessMixin, View):
+    login_url = reverse_lazy('login')
+
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(CustomUser, pk=user_id)
         if user:
-            if not self.check_user_access(user):
-                msg_txt = _('You do not have permission to delete another user.')
-                messages.error(request, msg_txt)
-                return redirect('users_index')
             msg_text = _('User is successfully deleted')
             messages.success(request, msg_text)
             user.delete()

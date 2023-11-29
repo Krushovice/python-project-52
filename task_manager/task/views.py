@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from task_manager.tasks.models import Task
+from .models import Task
 
 
 # Create your views here.
