@@ -1,7 +1,10 @@
-from django.shortcuts import render
-# from django.urls import reverse_lazy
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
 from .models import Status
+from .forms import StatusCreationForm, StatusUpdateForm
+from django.utils.translation import gettext as _
+from django.contrib import messages
 
 
 # Create your views here.
@@ -15,20 +18,60 @@ class StatusIndexView(View):
 
 class StatusCreateView(View):
     def get(self, request, *args, **kwargs):
-        pass
+        form = StatusCreationForm()
+        return render(request, 'statuses/create.html', context={
+            'form': form,
+        })
 
     def post(self, request, *args, **kwargs):
-        pass
+        form = StatusCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            msg_text = _('Status is successfully created')
+            messages.success(request, msg_text)
+            return redirect('status_index')
+        return render(request, 'statuses/create.html', context={
+            'form': form,
+        })
 
 
 class StatusUpdateView(View):
     def get(self, request, *args, **kwargs):
-        pass
+        status_id = kwargs.get('pk')
+        status = get_object_or_404(Status, pk=status_id)
+        form = StatusUpdateForm(instance=status)
+
+        return render(request, 'statuses/update.html', context={
+            'form': form,
+        })
 
     def post(self, request, *args, **kwargs):
-        pass
+        status_id = kwargs.get('pk')
+        status = get_object_or_404(Status, pk=status_id)
+        form = StatusUpdateForm(data=request.POST,
+                                instance=status)
+        if form.is_valid():
+            form.save()
+            msg_text = _('Status is successfully updated')
+            messages.success(request, msg_text)
+            return redirect('status_index')
+
+        return render(request, 'statuses/update.html', context={
+            'form': form,
+        })
 
 
 class StatusDeleteView(View):
+    def get(self, request, *args, **kwargs):
+        status_id = kwargs.get('pk')
+        status = get_object_or_404(Status, pk=status_id)
+        return render(request, 'statuses/index.html', {'status': status})
+
     def post(self, request, *args, **kwargs):
-        pass
+        status_id = kwargs.get('pk')
+        status = get_object_or_404(Status, pk=status_id)
+        if status:
+            msg_text = _('Status is successfully deleted')
+            messages.success(request, msg_text)
+            status.delete()
+        return redirect('status_index')

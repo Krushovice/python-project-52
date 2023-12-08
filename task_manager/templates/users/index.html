@@ -32,12 +32,12 @@
       <td>{{user.first_name}} {{user.last_name}}</td>
       <td>{{user.create_at}}</td>
       <td>
-        <a href="{{ user.get_absolute_update_url }}">{% translate "Edit" %}</a>
+        <a href="{% url 'user_update' pk=user_id %}">{% translate "Edit" %}</a>
         <br>
-        <form action="{{ user.get_absolute_delete_url }}" method="post">
+        <form action="{% url 'user_delete' pk=user_id %}" method="post">
           {% csrf_token %}
           <input type="submit" value="{% translate 'Delete' %}">
-      </form>
+        </form>
 
       </td>
     </tr>
