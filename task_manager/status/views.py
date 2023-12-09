@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Status
 from .forms import StatusCreationForm, StatusUpdateForm
@@ -35,7 +36,9 @@ class StatusCreateView(View):
         })
 
 
-class StatusUpdateView(View):
+class StatusUpdateView(LoginRequiredMixin, View):
+    login_url = reverse_lazy("login")
+
     def get(self, request, *args, **kwargs):
         status_id = kwargs.get('pk')
         status = get_object_or_404(Status, pk=status_id)
@@ -43,6 +46,8 @@ class StatusUpdateView(View):
 
         return render(request, 'statuses/update.html', context={
             'form': form,
+            'status_id': status_id,
+
         })
 
     def post(self, request, *args, **kwargs):
@@ -58,10 +63,13 @@ class StatusUpdateView(View):
 
         return render(request, 'statuses/update.html', context={
             'form': form,
+            'status_id': status_id,
         })
 
 
-class StatusDeleteView(View):
+class StatusDeleteView(LoginRequiredMixin, View):
+    login_url = reverse_lazy("login")
+
     def get(self, request, *args, **kwargs):
         status_id = kwargs.get('pk')
         status = get_object_or_404(Status, pk=status_id)

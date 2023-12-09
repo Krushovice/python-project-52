@@ -13,6 +13,7 @@ import os
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv  # Импортируем environ
+from django.contrib import messages
 
 load_dotenv()  # Загрузка переменных окружения из файла .env
 
@@ -155,6 +156,13 @@ DATETIME_FORMAT = "d.m.Y H:i"
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
