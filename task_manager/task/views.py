@@ -3,6 +3,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Task
+from task_manager.user.models import CustomUser
+from task_manager.status.models import Status
+from task_manager.label.models import Label
 from .forms import TaskCreationForm, TaskUpdateForm
 from django.utils.translation import gettext as _
 from django.contrib import messages
@@ -13,8 +16,14 @@ class IndexView(View):
 
     def get(self, request, *args, **kwargs):
         tasks = Task.objects.all()[:15]
+        executors = CustomUser.objects.all()
+        statuses = Status.objects.all()
+        labels = Label.objects.all()
         return render(request, 'tasks/index.html', context={
-            'tasks': tasks
+            'tasks': tasks,
+            'executors': executors,
+            'statuses': statuses,
+            'labels': labels,
         })
 
 
@@ -31,7 +40,16 @@ class TaskShowView(View):
 
 class TaskCreateView(View):
     def get(self, request, *args, **kwargs):
-        pass
+        form = TaskCreationForm()
+        executors = CustomUser.objects.all()
+        statuses = Status.objects.all()
+        labels = Label.objects.all()
+        return render(request, 'tasks/create.html', context={
+            'form': form,
+            'executors': executors,
+            'statuses': statuses,
+            'labels': labels,
+        })
 
     def post(self, request, *args, **kwargs):
         pass

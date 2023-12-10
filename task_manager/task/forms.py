@@ -6,11 +6,11 @@ class TaskCreationForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name']
+        fields = ['name', 'description', 'status', 'executor', 'labels']
 
 
 class TaskUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name']
+        fields = ['name', 'description', 'status', 'executor', 'labels']
