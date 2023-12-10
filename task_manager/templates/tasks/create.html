@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 i18n %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+
+
+
+    <h1 class="my-4">
+
+{% translate 'Create task' %}
+
+    </h1>
+
+<form method="post">
+<input type="hidden" name="csrfmiddlewaretoken" value="gGRfVJGBFa1MFUkglBJf1g5bel1wH5u62rkJCfF4xXsObIRaQELGjVgfcYtF7Hme">
+<div class="mb-3"><label class="form-label" for="id_name">{% translate 'Name' %}</label>
+    <input type="text" name="name" maxlength="150" class="form-control" placeholder="{% translate 'Name' %}" required="" id="id_name"></div>
+    <div class="mb-3"><label class="form-label" for="id_description">{% translate 'Description' %}</label>
+        <textarea name="description" cols="40" rows="10" class="form-control" placeholder="{% translate 'Description' %}" id="id_description"></textarea>
+    </div>
+    <div class="mb-3"><label class="form-label" for="id_status">{% translate 'Status' %}</label>
+        <select name="status" class="form-select" required="" id="id_status">
+<option value="" selected="">---------</option>
+
+<option value=""></option>
+
+</select>
+</div>
+<div class="mb-3">
+    <label class="form-label" for="id_executor">{% translate 'Executor' %}</label>
+    <select name="executor" class="form-select" id="id_executor">
+<option value="" selected="">---------</option>
+
+<option value=""></option>
+
+</select>
+</div>
+<div class="mb-3"><label class="form-label" for="id_labels">{% translate 'Labels' %}</label>
+    <select name="labels" class="form-select" id="id_labels" multiple="">
+<option value=""></option>
+
+</select></div>
+  <input class="btn btn-primary" type="submit" value="{% translate 'Create' %}">
+</form>
+
+  </div>
+{% endblock %}

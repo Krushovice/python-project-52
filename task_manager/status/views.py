@@ -19,7 +19,7 @@ class StatusIndexView(View):
 
 class StatusCreateView(View):
     def get(self, request, *args, **kwargs):
-        form = StatusCreationForm()
+        form = TaskCreationForm()
         return render(request, 'statuses/create.html', context={
             'form': form,
         })
