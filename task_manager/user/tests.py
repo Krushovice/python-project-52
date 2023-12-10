@@ -5,14 +5,14 @@ from django.urls import reverse
 
 # Create your tests here.
 class TestUser(TestCase, Client):
-
-    def setUp(self):
-        self.user = User.objects.create(first_name='Frank',
-                                        last_name='Abignel',
-                                        username='Aviator')
-        self.user.set_password('123456')
-        self.user.save()
-        self.client = Client()
+    @classmethod
+    def setUp(cls):
+        cls.user = User.objects.create(first_name='Frank',
+                                       last_name='Abignel',
+                                       username='Aviator')
+        cls.user.set_password('123456')
+        cls.user.save()
+        cls.client = Client()
 
     def test_login(self):
         self.client.login(username='Aviator', password='123456')

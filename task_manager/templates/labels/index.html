@@ -22,7 +22,7 @@
   <tr>
     <th>ID</th>
     <th>{% translate "Name" %}</th>
-    <th>{% translate "Created_at" %}</th>
+    <th>{% translate "Create date" %}</th>
     <th></th>
   </tr>
 </thead>
@@ -31,7 +31,7 @@
     <tr>
       <td>{{label.id}}</td>
       <td>{{label.name}}</td>
-      <td>{{label.timestamp}}</td>
+      <td>{{label.created_at}}</td>
       <td>
         <a href="{% url 'label_update' pk=label.id %}">{% translate "Update"%}</a>
         <br>

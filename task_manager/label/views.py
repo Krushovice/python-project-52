@@ -50,8 +50,8 @@ class LabelUpdateView(View):
         label_id = kwargs.get('pk')
         label = get_object_or_404(Label, pk=label_id)
         form = LabelUpdateForm(label=label,
-                                data=request.POST,
-                                instance=label)
+                               data=request.POST,
+                               instance=label)
         if form.is_valid():
             form.save()
             msg_text = _('Label is successfully updated')

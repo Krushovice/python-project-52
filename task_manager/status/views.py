@@ -73,13 +73,17 @@ class StatusDeleteView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         status_id = kwargs.get('pk')
         status = get_object_or_404(Status, pk=status_id)
-        return render(request, 'statuses/index.html', {'status': status})
+        return render(request, 'statuses/delete.html', {'status': status})
 
     def post(self, request, *args, **kwargs):
         status_id = kwargs.get('pk')
         status = get_object_or_404(Status, pk=status_id)
-        if status:
-            msg_text = _('Status is successfully deleted')
-            messages.success(request, msg_text)
-            status.delete()
+        # Проверяем, есть ли связанные задачи
+        if status.tasks.exists():
+            msg_text = _('Cannot delete status because it is in use')
+            messages.error(request, msg_text)
+            return redirect('status_index')
+        msg_text = _('Status is successfully deleted')
+        messages.success(request, msg_text)
+        status.delete()
         return redirect('status_index')

@@ -13,9 +13,36 @@ class IndexView(View):
         })
 
 
-class TaskView(View):
+class TaskShowView(View):
     def get(self, request, *args, **kwargs):
-        task = get_object_or_404(Task, id=kwargs['id'])
+        task_id = kwargs.get('pk')
+        task = get_object_or_404(Task, pk=task_id)
+
         return render(request, 'tasks/show.html', context={
             'task': task,
+            'task_id': task_id,
         })
+
+
+class TaskCreateView(View):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+
+class TaskUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+
+class TaskDeleteView(View):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass
