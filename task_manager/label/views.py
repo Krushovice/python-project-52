@@ -19,7 +19,7 @@ class LabelIndexView(View):
 class LabelCreateView(View):
     def get(self, request, *args, **kwargs):
         form = LabelCreationForm()
-        return render('labels/create.html', context={
+        return render(request, 'labels/create.html', context={
             'form': form,
         })
 
@@ -39,7 +39,7 @@ class LabelUpdateView(View):
     def get(self, request, *args, **kwargs):
         label_id = kwargs.get('pk')
         label = get_object_or_404(Label, pk=label_id)
-        form = LabelUpdateForm(label=label, instance=label)
+        form = LabelUpdateForm(instance=label)
 
         return render(request, 'labels/update.html', context={
             'form': form,
@@ -49,14 +49,13 @@ class LabelUpdateView(View):
     def post(self, request, *args, **kwargs):
         label_id = kwargs.get('pk')
         label = get_object_or_404(Label, pk=label_id)
-        form = LabelUpdateForm(label=label,
-                               data=request.POST,
+        form = LabelUpdateForm(data=request.POST,
                                instance=label)
         if form.is_valid():
             form.save()
             msg_text = _('Label is successfully updated')
             messages.success(request, msg_text)
-            return redirect('label_index')
+            return redirect('labels_index')
 
         return render(request, 'labels/update.html', context={
             'form': form,
