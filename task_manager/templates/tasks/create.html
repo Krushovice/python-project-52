@@ -26,26 +26,27 @@
     </div>
     <div class="mb-3"><label class="form-label" for="id_status">{% translate 'Status' %}</label>
         <select name="status" class="form-select" required="" id="id_status">
-<option value="" selected="">---------</option>
-
-<option value=""></option>
-
-</select>
-</div>
-<div class="mb-3">
-    <label class="form-label" for="id_executor">{% translate 'Executor' %}</label>
-    <select name="executor" class="form-select" id="id_executor">
-<option value="" selected="">---------</option>
-
-<option value=""></option>
-
-</select>
-</div>
-<div class="mb-3"><label class="form-label" for="id_labels">{% translate 'Labels' %}</label>
-    <select name="labels" class="form-select" id="id_labels" multiple="">
-<option value=""></option>
-
-</select></div>
+        <option value="" selected="">---------</option>
+        {% for status in statuses %}
+            <option value="{{status.id}}">{{status.name}}</option>
+        {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3"><label class="form-label" for="id_executor">{% translate 'Executor' %}</label>
+        <select name="executor" class="form-select" id="id_executor">
+            <option value="" selected="">---------</option>
+            {% for executor in executors %}
+                <option value="{{executor.id}}">{{executor.first_name}} {{executor.last_name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3"><label class="form-label" for="id_labels">{% translate 'Labels' %}</label>
+        <select name="labels" class="form-select" id="id_labels" multiple="">
+        {% for label in labels %}
+            <option value="{{label.id}}">{{label.name}}</option>
+        {% endfor %}
+        </select>
+    </div>
   <input class="btn btn-primary" type="submit" value="{% translate 'Create' %}">
 </form>
 
