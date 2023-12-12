@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-12 17:11+1000\n"
+"POT-Creation-Date: 2023-12-12 18:07+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,9 +16,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
 #: task_manager/label/views.py:30
 msgid "Label is successfully created"
 msgstr "Метка успешно создана"
@@ -140,9 +141,8 @@ msgid "Label delete"
 msgstr "Удаление метки"
 
 #: task_manager/templates/labels/delete.html:17
-#, python-format
-msgid "Do you want to delete %(label_name)s?"
-msgstr "Вы хотите удалить %(label_name)s?"
+msgid "Are you sure you want to delete %(label_name)s?"
+msgstr "Вы уверены, что хотите удалить %(label_name)s?"
 
 #: task_manager/templates/labels/delete.html:21
 #: task_manager/templates/statuses/delete.html:21
@@ -152,6 +152,7 @@ msgid "Yes, delete"
 msgstr "Да, удалить"
 
 #: task_manager/templates/labels/index.html:15
+#: task_manager/templates/tasks/show.html:50
 msgid "Labels"
 msgstr "Метки"
 
@@ -167,6 +168,7 @@ msgstr "Имя"
 
 #: task_manager/templates/labels/index.html:25
 #: task_manager/templates/tasks/index.html:68
+#: task_manager/templates/tasks/show.html:45
 #: task_manager/templates/users/index.html:22
 msgid "Create date"
 msgstr "Дата создания"
@@ -184,6 +186,7 @@ msgstr "Изменить"
 #: task_manager/templates/labels/index.html:38
 #: task_manager/templates/statuses/index.html:38
 #: task_manager/templates/tasks/index.html:90
+#: task_manager/templates/tasks/show.html:64
 #: task_manager/templates/users/index.html:37
 msgid "Delete"
 msgstr "Удалить"
@@ -202,9 +205,8 @@ msgid "Status delete"
 msgstr "Удаление статуса"
 
 #: task_manager/templates/statuses/delete.html:17
-#, python-format
-msgid "Do you want to delete %(status_name)s?"
-msgstr "Вы хотите удалить %(status_name)s?"
+msgid " Are you sure you want to delete %(status_name)s?"
+msgstr "Вы уверены, что хотите удалить %(status_name)s?"
 
 #: task_manager/templates/statuses/index.html:25
 msgid "Сreate date"
@@ -224,17 +226,18 @@ msgid "Task delete"
 msgstr "Удаление задачи"
 
 #: task_manager/templates/tasks/delete.html:17
-#, python-format
-msgid "Do you want to delete %(task_name)s?"
-msgstr "Вы хотите удалить %(task_name)s?"
+msgid " Are you sure you want to delete %(task_name)s?"
+msgstr "Вы уверены, что хотите удалить %(task_name)s?"
 
 #: task_manager/templates/tasks/index.html:29
 #: task_manager/templates/tasks/index.html:65
+#: task_manager/templates/tasks/show.html:41
 msgid "Status"
 msgstr "Статус"
 
 #: task_manager/templates/tasks/index.html:37
 #: task_manager/templates/tasks/index.html:67
+#: task_manager/templates/tasks/show.html:33
 msgid "Executor"
 msgstr "Исполнитель"
 
@@ -247,8 +250,20 @@ msgid "Show"
 msgstr "Показать"
 
 #: task_manager/templates/tasks/index.html:66
+#: task_manager/templates/tasks/show.html:29
 msgid "Author"
 msgstr "Автор"
+
+#: task_manager/templates/tasks/show.html:16
+#, fuzzy
+#| msgid "Create task"
+msgid "View a task"
+msgstr "Создать задачу"
+
+#: task_manager/templates/tasks/show.html:62
+#: task_manager/templates/users/index.html:35
+msgid "Edit"
+msgstr "Изменить"
 
 #: task_manager/templates/tasks/update.html:9
 msgid "Update task"
@@ -264,9 +279,9 @@ msgid "User delete"
 msgstr "Изменение пользователя"
 
 #: task_manager/templates/users/delete.html:16
-#, python-format
-msgid "Do you want to delete %(user_first_name)s %(user_last_name)s?"
-msgstr "Вы хотите удалить %(user_first_name)s %(user_last_name)s?"
+
+msgid "Are you sure you want to delete %(user_first_name)s %(user_last_name)s?"
+msgstr "Вы уверены, что хотите удалить %(user_first_name)s %(user_last_name)s?"
 
 #: task_manager/templates/users/index.html:19
 msgid "ID"
@@ -279,10 +294,6 @@ msgstr "Имя пользователя"
 #: task_manager/templates/users/index.html:21
 msgid "Full name"
 msgstr "Полное имя"
-
-#: task_manager/templates/users/index.html:35
-msgid "Edit"
-msgstr "Изменить"
 
 #: task_manager/templates/users/login.html:15
 msgid "Sign in"
