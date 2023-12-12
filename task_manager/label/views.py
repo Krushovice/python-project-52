@@ -66,11 +66,20 @@ class LabelUpdateView(View):
 class LabelDeleteView(View):
     login_url = reverse_lazy('login')
 
+    def get(self, request, *args, **kwargs):
+        label_id = kwargs.get('pk')
+        label = get_object_or_404(Label, pk=label_id)
+        return render(request, 'labels/delete.html', {'label': label})
+
     def post(self, request, *args, **kwargs):
         label_id = kwargs.get('pk')
         label = get_object_or_404(Label, pk=label_id)
-        if label:
-            msg_text = _('Label is successfully deleted')
-            messages.success(request, msg_text)
-            label.delete()
+        # Проверяем, есть ли связанные задачи
+        if label.tasks.exists():
+            msg_text = _('Cannot delete label because it is in use')
+            messages.error(request, msg_text)
+            return redirect('label_index')
+        msg_text = _('Label is successfully deleted')
+        messages.success(request, msg_text)
+        label.delete()
         return redirect('label_index')

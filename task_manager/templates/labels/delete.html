@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 i18n %}
+
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+
+
+
+    <h1 class="my-4">
+
+{% translate "Label delete" %}
+
+    </h1>
+    {% with label_name=label.name %}
+    <p>{% blocktranslate %}Do you want to delete {{ label_name }}?{% endblocktranslate %}</p>
+    {%endwith%}
+<form method="post">
+<input type="hidden" name="csrfmiddlewaretoken" value="juVR3xEAh5YTsuhrKTjq4nG1ciIcPZ705folK3D39SpVYiOlfWlRm2R5aValfBZ8">
+<input class="btn btn-danger" type="submit" value="{% translate 'Yes, delete' %}">
+{% csrf_token %}
+</form>
+
+  </div>
+{% endblock %}

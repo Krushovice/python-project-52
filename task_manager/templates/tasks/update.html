@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 i18n %}
+
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+
+<h1 class="my-3">{% translate 'Update task' %}</h1>
+
+<form action="{% url 'task_update' pk=task_id %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    {% translate 'Update' as button_name %}
+    {% bootstrap_button button_type="submit" content=button_name %}
+</form>
+</div>
+{% endblock %}

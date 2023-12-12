@@ -34,11 +34,7 @@
       <td>
         <a href="{% url 'user_update' pk=user.id %}">{% translate "Edit" %}</a>
         <br>
-        <form action="{% url 'user_delete' pk=user.id %}" method="post">
-          {% csrf_token %}
-          <input type="submit" value="{% translate 'Delete' %}">
-        </form>
-
+        <a href="{% url 'user_delete' pk=user.id %}">{% translate "Delete" %}</a>
       </td>
     </tr>
     {% endfor %}

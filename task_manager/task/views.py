@@ -38,7 +38,7 @@ class TaskShowView(View):
         })
 
 
-class TaskCreateView(View):
+class TaskCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form = TaskCreationForm()
         executors = CustomUser.objects.all()
@@ -52,15 +52,49 @@ class TaskCreateView(View):
         })
 
     def post(self, request, *args, **kwargs):
-        pass
+        form = TaskCreationForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.author = request.user
+            task.save()
+            msg_text = _('Task is successfully created')
+            messages.success(request, msg_text)
+            return redirect('task_index')
+        return render(request, 'tasks/create.html', context={
+            'form': form,
+        })
 
 
 class TaskUpdateView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
+
     def get(self, request, *args, **kwargs):
-        pass
+        task_id = kwargs.get('pk')
+        task = get_object_or_404(Task, pk=task_id)
+        form = TaskUpdateForm(instance=task)
+
+        return render(request, 'tasks/update.html', context={
+            'form': form,
+            'task_id': task_id,
+        })
 
     def post(self, request, *args, **kwargs):
-        pass
+        task_id = kwargs.get('pk')
+        task = get_object_or_404(Task, pk=task_id)
+        form = TaskUpdateForm(instance=task, data=request.POST)
+
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.author = request.user
+            task.save()
+            msg_text = _('Task is successfully updated')
+            messages.success(request, msg_text)
+            return redirect('task_index')
+
+        return render(request, 'tasks/update.html', context={
+            'form': form,
+            'task_id': task_id,
+        })
 
 
 class TaskDeleteView(LoginRequiredMixin, View):
@@ -72,4 +106,14 @@ class TaskDeleteView(LoginRequiredMixin, View):
         return render(request, 'tasks/delete.html', {'task': task})
 
     def post(self, request, *args, **kwargs):
-        pass
+        task_id = kwargs.get('pk')
+        task = get_object_or_404(Task, pk=task_id)
+
+        if request.user != task.author:
+            msg_text = _('Only its author can delete a task')
+            messages.error(request, msg_text)
+            return redirect('task_index')
+        msg_text = _('Task is successfully deleted')
+        messages.success(request, msg_text)
+        task.delete()
+        return redirect('task_index')

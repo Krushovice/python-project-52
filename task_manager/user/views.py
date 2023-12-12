@@ -72,11 +72,19 @@ class UserUpdateView(UserAccessMixin, View):
 class UserDeleteView(UserAccessMixin, View):
     login_url = reverse_lazy('login')
 
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = get_object_or_404(CustomUser, pk=user_id)
+        return render(request, 'users/delete.html', {'user': user})
+
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(CustomUser, pk=user_id)
-        if user:
-            msg_text = _('User is successfully deleted')
-            messages.success(request, msg_text)
-            user.delete()
+        if user.author.exists() or user.executor.exists():
+            msg_text = _('Cannot delete user because it is in use')
+            messages.error(request, msg_text)
+            return redirect('users_index')
+        msg_text = _('User is successfully deleted')
+        messages.success(request, msg_text)
+        user.delete()
         return redirect('users_index')

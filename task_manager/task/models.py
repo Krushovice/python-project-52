@@ -8,11 +8,11 @@ from task_manager.label.models import Label
 class Task(models.Model):
     name = models.CharField(max_length=200,
                             unique=True,
-                            )  # название задачи
+                            )
     description = models.TextField(max_length=255,
                                    unique=False,
                                    blank=True,
-                                   null=True,)  # тело задачи
+                                   null=True,)
     author = models.ForeignKey(CustomUser,
                                on_delete=models.PROTECT,
                                related_name='author')
