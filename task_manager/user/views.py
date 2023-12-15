@@ -54,8 +54,7 @@ class UserUpdateView(UserAccessMixin, View):
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(CustomUser, pk=user_id)
-        form = CustomUserUpdateForm(user=user,
-                                    data=request.POST,
+        form = CustomUserUpdateForm(data=request.POST,
                                     instance=user)
         if form.is_valid():
             form.save()
@@ -80,7 +79,7 @@ class UserDeleteView(UserAccessMixin, View):
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(CustomUser, pk=user_id)
-        if user.author.exists() or user.executor.exists():
+        if user.task_author.exists() or user.task_executor.exists():
             msg_text = _('Cannot delete user because it is in use')
             messages.error(request, msg_text)
             return redirect('users_index')
