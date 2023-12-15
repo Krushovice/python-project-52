@@ -79,7 +79,7 @@ class StatusDeleteView(LoginRequiredMixin, View):
         status_id = kwargs.get('pk')
         status = get_object_or_404(Status, pk=status_id)
         # Проверяем, есть ли связанные задачи
-        if status.tasks.exists():
+        if status.task_status.exists():
             msg_text = _('Cannot delete status because it is in use')
             messages.error(request, msg_text)
             return redirect('status_index')

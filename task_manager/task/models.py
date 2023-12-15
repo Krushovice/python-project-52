@@ -15,16 +15,17 @@ class Task(models.Model):
                                    null=True,)
     author = models.ForeignKey(CustomUser,
                                on_delete=models.PROTECT,
-                               related_name='author')
+                               related_name='task_author')
     executor = models.ForeignKey(CustomUser,
                                  on_delete=models.PROTECT,
                                  blank=True,
                                  null=True,
-                                 related_name='executor')
-    labels = models.ManyToManyField(Label, blank=True, related_name='labels')
+                                 related_name='task_executor')
+    labels = models.ManyToManyField(Label, blank=True,
+                                    related_name='task_labels')
     status = models.ForeignKey(Status,
                                on_delete=models.PROTECT,
-                               related_name='status')
+                               related_name='task_status')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

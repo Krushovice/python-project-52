@@ -75,11 +75,11 @@ class LabelDeleteView(View):
         label_id = kwargs.get('pk')
         label = get_object_or_404(Label, pk=label_id)
         # Проверяем, есть ли связанные задачи
-        if label.tasks.exists():
+        if label.task_labels.exists():
             msg_text = _('Cannot delete label because it is in use')
             messages.error(request, msg_text)
-            return redirect('label_index')
+            return redirect('labels_index')
         msg_text = _('Label is successfully deleted')
         messages.success(request, msg_text)
         label.delete()
-        return redirect('label_index')
+        return redirect('labels_index')

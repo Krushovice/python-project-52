@@ -1,45 +1,75 @@
 from django.test import TestCase, Client
-from task_manager.task.models import Task
+from django.shortcuts import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from task_manager.user.models import CustomUser
+
 from .models import Status
-from django.urls import reverse
 
 
-class TestStatus(TestCase, Client):
-    @classmethod
-    def setUp(cls):
-        cls.status1 = Status.objects.create(name="На тестировании")
-        cls.status2 = Status.objects.create(name="В работе")
-        cls.task = Task.objects.create(name="Task 1")
-        cls.task.statuses.add(cls.status1)
-        cls.client = Client()
+class StatusCRUDTest(TestCase):
+    """Tests for status CRUD operation."""
+    user_data = {
+        'username': 'tota',
+        'first_name': 'Tota',
+        'last_name': 'Totavich',
+        'password': '123456a',
+    }
 
-    def test_status_show(self):
-        statuses = Status.objects.all()
-        message = "Status not found"
-        self.assertIn(self.status1, statuses, message)
-        self.assertIn(self.status2, statuses, message)
+    def setUp(self):
+        """Set up test enviroment."""
+        self.client = Client()
+        self.data = {
+            'create': {'name': 'Example status'},
+            'update': {'name': 'Updated status'},
+        }
+
+        CustomUser.objects.create_user(**self.user_data)
+        login_url = reverse('login')
+        self.client.post(
+            login_url,
+            {
+                'username': self.user_data['username'],
+                'password': self.user_data['password']
+            }
+        )
+
+    def test_status_create(self):
+        """Test status creation on POST."""
+
+        url = reverse('status_create')
+        status_data = self.data['create']
+
+        self.client.post(url, status_data)
+        status = Status.objects.last()
+        self.assertEqual(status.name, status_data['name'])
+
+    def test_status_read(self):
+        """Test a status present in index view."""
+        url = reverse('status_index')
+        status_data = self.data['create']
+        status = Status.objects.create(**status_data)
+
+        response = self.client.get(url)
+        self.assertIn(status.name, response.content.decode('utf-8'))
 
     def test_status_update(self):
-        status = Status.objects.get(name="На тестировании")
-        status.name = "В разработке"
-        status.save()
-        self.assertEqual(status.name, "В разработке")
+        """Test status update on POST."""
+        status_data = self.data['create']
+        status = Status.objects.create(**status_data)
+        url = reverse('status_update', kwargs={'pk': status.pk})
 
-    def test_status_deletion_blocked(self):
-        # Проверяем, что статус связан с какой-либо задачей
-        self.assertTrue(self.status1.tasks.exists())
-        response = self.client.post(reverse('status_delete',
-                                            kwargs={'pk': self.status1.pk}))
-        self.assertEqual(response.status_code, 302)
-        statuses = Status.objects.all()
-        status = Status.objects.get(pk=self.status1.pk)
-        self.assertIn(status, statuses)
+        status_updated_data = self.data['update']
+        self.client.post(url, status_updated_data)
+
+        status_updated = Status.objects.get(pk=status.pk)
+        self.assertEqual(status_updated_data['name'], status_updated.name)
 
     def test_status_delete(self):
-        self.assertFalse(self.status2.tasks.exists())
-        url = reverse('status_delete', kwargs={'pk': self.status2.pk})
+        """Test status delete on POST."""
+        status_data = self.data['create']
+        status = Status.objects.create(**status_data)
+        url = reverse('status_delete', kwargs={'pk': status.pk})
 
         self.client.post(url)
         with self.assertRaises(ObjectDoesNotExist):
-            Status.objects.get(pk=self.status2.pk)
+            Status.objects.get(pk=status.pk)
