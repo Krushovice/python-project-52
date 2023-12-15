@@ -6,21 +6,19 @@ from task_manager.user.models import CustomUser
 from .models import Label
 
 
-class StatusCRUDTest(TestCase):
-    """Tests for status CRUD operation."""
+class LabelCRUDTest(TestCase):
     user_data = {
-        'username': 'tota',
-        'first_name': 'Tota',
-        'last_name': 'Totavich',
+        'username': 'jhondoe',
+        'first_name': 'Jhon',
+        'last_name': 'Doe',
         'password': '123456a',
     }
 
     def setUp(self):
-        """Set up test enviroment."""
         self.client = Client()
         self.data = {
-            'create': {'name': 'Example label'},
-            'update': {'name': 'Updated label'},
+            'create': {'name': 'Test status'},
+            'update': {'name': 'Updated test status'},
         }
 
         CustomUser.objects.create_user(**self.user_data)

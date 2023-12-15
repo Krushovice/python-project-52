@@ -7,20 +7,18 @@ from .models import Status
 
 
 class StatusCRUDTest(TestCase):
-    """Tests for status CRUD operation."""
     user_data = {
-        'username': 'tota',
-        'first_name': 'Tota',
-        'last_name': 'Totavich',
+        'username': 'jhondoe',
+        'first_name': 'Jhon',
+        'last_name': 'Doe',
         'password': '123456a',
     }
 
     def setUp(self):
-        """Set up test enviroment."""
         self.client = Client()
         self.data = {
-            'create': {'name': 'Example status'},
-            'update': {'name': 'Updated status'},
+            'create': {'name': 'Test status'},
+            'update': {'name': 'Updated test status'},
         }
 
         CustomUser.objects.create_user(**self.user_data)
@@ -34,8 +32,6 @@ class StatusCRUDTest(TestCase):
         )
 
     def test_status_create(self):
-        """Test status creation on POST."""
-
         url = reverse('status_create')
         status_data = self.data['create']
 
@@ -44,7 +40,6 @@ class StatusCRUDTest(TestCase):
         self.assertEqual(status.name, status_data['name'])
 
     def test_status_read(self):
-        """Test a status present in index view."""
         url = reverse('status_index')
         status_data = self.data['create']
         status = Status.objects.create(**status_data)
@@ -53,7 +48,6 @@ class StatusCRUDTest(TestCase):
         self.assertIn(status.name, response.content.decode('utf-8'))
 
     def test_status_update(self):
-        """Test status update on POST."""
         status_data = self.data['create']
         status = Status.objects.create(**status_data)
         url = reverse('status_update', kwargs={'pk': status.pk})
@@ -65,7 +59,6 @@ class StatusCRUDTest(TestCase):
         self.assertEqual(status_updated_data['name'], status_updated.name)
 
     def test_status_delete(self):
-        """Test status delete on POST."""
         status_data = self.data['create']
         status = Status.objects.create(**status_data)
         url = reverse('status_delete', kwargs={'pk': status.pk})
