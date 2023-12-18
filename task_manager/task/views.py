@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
+from django.views.generic.edit import CreateView
 from .models import Task
 from task_manager.user.models import CustomUser
 from task_manager.status.models import Status
 from task_manager.label.models import Label
-from .forms import TaskCreationForm, TaskUpdateForm
+from .forms import TaskForm
 from django.utils.translation import gettext as _
 from django.contrib import messages
 
@@ -38,31 +40,24 @@ class TaskShowView(View):
         })
 
 
-class TaskCreateView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        form = TaskCreationForm()
-        executors = CustomUser.objects.all()
-        statuses = Status.objects.all()
-        labels = Label.objects.all()
-        return render(request, 'tasks/create.html', context={
-            'form': form,
-            'executors': executors,
-            'statuses': statuses,
-            'labels': labels,
-        })
+class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    login_url = 'login'
+    success_message = _('Task is successfully created')
 
-    def post(self, request, *args, **kwargs):
-        form = TaskCreationForm(request.POST)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.author = request.user
-            task.save()
-            msg_text = _('Task is successfully created')
-            messages.success(request, msg_text)
-            return redirect('task_index')
-        return render(request, 'tasks/create.html', context={
-            'form': form,
-        })
+    template_name = 'tasks/create.html'
+    model = Task
+    fields = [
+        'name',
+        'description',
+        'status',
+        'executor',
+        'labels',
+    ]
+
+    def form_valid(self, form):
+        """Assign user as author to the model instance."""
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class TaskUpdateView(LoginRequiredMixin, View):
@@ -71,7 +66,7 @@ class TaskUpdateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         task_id = kwargs.get('pk')
         task = get_object_or_404(Task, pk=task_id)
-        form = TaskUpdateForm(instance=task)
+        form = TaskForm(instance=task)
 
         return render(request, 'tasks/update.html', context={
             'form': form,
@@ -81,12 +76,10 @@ class TaskUpdateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         task_id = kwargs.get('pk')
         task = get_object_or_404(Task, pk=task_id)
-        form = TaskUpdateForm(instance=task, data=request.POST)
+        form = TaskForm(instance=task, data=request.POST)
 
         if form.is_valid():
-            task = form.save(commit=False)
-            task.author = request.user
-            task.save()
+            form.save()
             msg_text = _('Task is successfully updated')
             messages.success(request, msg_text)
             return redirect('task_index')

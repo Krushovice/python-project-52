@@ -1,16 +1,14 @@
-from django import forms
-from .models import Task
+from django.forms import ModelForm
+from .import models
 
 
-class TaskCreationForm(forms.ModelForm):
-
+class TaskForm(ModelForm):
     class Meta:
-        model = Task
-        fields = ['name', 'description', 'status', 'executor', 'labels']
-
-
-class TaskUpdateForm(forms.ModelForm):
-
-    class Meta:
-        model = Task
-        fields = ['name', 'description', 'status', 'executor', 'labels']
+        model = models.Task
+        fields = [
+            'name',
+            'description',
+            'status',
+            'executor',
+            'labels',
+        ]

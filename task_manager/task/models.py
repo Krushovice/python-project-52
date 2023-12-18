@@ -2,6 +2,7 @@ from django.db import models
 from task_manager.user.models import CustomUser
 from task_manager.status.models import Status
 from task_manager.label.models import Label
+from django.urls import reverse
 
 
 # Create your models here.
@@ -28,6 +29,9 @@ class Task(models.Model):
                                related_name='task_status')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('task_index')
 
     def __str__(self):
         return f'{self.name}'
