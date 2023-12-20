@@ -9,24 +9,30 @@ from task_manager.user.models import CustomUser
 from task_manager.status.models import Status
 from task_manager.label.models import Label
 from .forms import TaskForm
+from .filters import TaskFilter
+from django.views.generic.list import ListView
+from django_filters.views import FilterView
 from django.utils.translation import gettext as _
 from django.contrib import messages
 
 
 # Create your views here.
-class IndexView(View):
+class IndexView(FilterView):
+    model = Task
+    filterset_class = TaskFilter
+    template_name = 'tasks/index.html'
+    context_object_name = 'tasks'
+    paginate_by = 15
 
-    def get(self, request, *args, **kwargs):
-        tasks = Task.objects.all()[:15]
-        executors = CustomUser.objects.all()
-        statuses = Status.objects.all()
-        labels = Label.objects.all()
-        return render(request, 'tasks/index.html', context={
-            'tasks': tasks,
-            'executors': executors,
-            'statuses': statuses,
-            'labels': labels,
-        })
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['executors'] = CustomUser.objects.all()
+        context['statuses'] = Status.objects.all()
+        context['labels'] = Label.objects.all()
+        context['filter'] = TaskFilter(self.request.GET,
+                                       request=self.request,
+                                       queryset=self.get_queryset())
+        return context
 
 
 class TaskShowView(View):

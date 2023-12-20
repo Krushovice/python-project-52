@@ -44,7 +44,7 @@ class UserUpdateView(UserAccessMixin, View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = get_object_or_404(CustomUser, pk=user_id)
-        form = CustomUserUpdateForm(user=user, instance=user)
+        form = CustomUserUpdateForm(instance=user)
 
         return render(request, 'users/update.html', context={
             'form': form,
