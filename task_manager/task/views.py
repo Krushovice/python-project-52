@@ -10,7 +10,6 @@ from task_manager.status.models import Status
 from task_manager.label.models import Label
 from .forms import TaskForm
 from .filters import TaskFilter
-from django.views.generic.list import ListView
 from django_filters.views import FilterView
 from django.utils.translation import gettext as _
 from django.contrib import messages
