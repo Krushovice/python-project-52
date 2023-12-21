@@ -30,8 +30,7 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.getenv('DEBUG')
-DEBUG = False
+DEBUG = os.getenv('DEBUG')
 ALLOWED_HOSTS = ['127.0.0.1', 'webserver']
 
 RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
