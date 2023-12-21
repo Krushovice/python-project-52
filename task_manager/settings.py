@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 import dj_database_url
 from pathlib import Path
+from distutils.util import strtobool
 from dotenv import load_dotenv  # Импортируем environ
 from django.contrib import messages
 
@@ -30,7 +31,7 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = bool(strtobool(os.getenv('DEBUG', 'False')))
 ALLOWED_HOSTS = ['127.0.0.1', 'webserver']
 
 RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
