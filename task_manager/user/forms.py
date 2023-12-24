@@ -6,13 +6,13 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'username']
 
 
 class CustomUserUpdateForm(CustomUserCreationForm):
 
     field_order = [
-        'username',
         'first_name',
         'last_name',
+        'username',
     ]
