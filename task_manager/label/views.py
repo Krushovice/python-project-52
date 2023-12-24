@@ -23,7 +23,7 @@ class LabelCreateView(View):
             'form': form,
         })
 
-    def post(self, request, *args, **kwargs):
+    def post(self, *args, **kwargs):
         form = LabelCreationForm(request.POST)
         if form.is_valid():
             form.save()

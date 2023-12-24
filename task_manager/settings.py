@@ -13,7 +13,7 @@ import os
 import dj_database_url
 from pathlib import Path
 from distutils.util import strtobool
-from dotenv import load_dotenv  # Импортируем environ
+from dotenv import load_dotenv
 from django.contrib import messages
 
 load_dotenv()  # Загрузка переменных окружения из файла .env
@@ -66,11 +66,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
-if not DEBUG:
-    MIDDLEWARE.append(
-        'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
-    )
+
 
 ROLLBAR = {
     'access_token': ACCESS_TOKEN,
