@@ -21,7 +21,6 @@ class IndexView(FilterView):
     filterset_class = TaskFilter
     template_name = 'tasks/index.html'
     context_object_name = 'tasks'
-    paginate_by = 15
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -29,7 +28,6 @@ class IndexView(FilterView):
         context['statuses'] = Status.objects.all()
         context['labels'] = Label.objects.all()
         context['filter'] = TaskFilter(self.request.GET,
-                                       request=self.request,
                                        queryset=self.get_queryset())
         return context
 
