@@ -2,7 +2,7 @@
 
 from django.conf import settings
 from django.db import migrations, models
-import django.db.models.deletion
+from django.db.models.deletion import PROTECT
 
 
 class Migration(migrations.Migration):
@@ -18,21 +18,30 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='task',
             name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='task_author', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=PROTECT,
+                                    related_name='task_author',
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='task',
             name='executor',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='task_executor', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, null=True,
+                                    on_delete=PROTECT,
+                                    related_name='task_executor',
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='task',
             name='labels',
-            field=models.ManyToManyField(blank=True, related_name='task_labels', to='label.label'),
+            field=models.ManyToManyField(blank=True,
+                                         related_name='task_labels',
+                                         to='label.label'),
         ),
         migrations.AlterField(
             model_name='task',
             name='status',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='task_status', to='status.status'),
+            field=models.ForeignKey(on_delete=PROTECT,
+                                    related_name='task_status',
+                                    to='status.status'),
         ),
     ]

@@ -3,7 +3,6 @@ from django.shortcuts import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from task_manager.user.models import CustomUser
 from task_manager.status.models import Status
-from django.contrib.auth import authenticate
 
 from .models import Task
 
