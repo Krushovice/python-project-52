@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-24 16:10+1000\n"
+"POT-Creation-Date: 2023-12-24 17:12+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: task_manager/label/models.py:7 task_manager/status/models.py:7
+#: task_manager/task/models.py:11 task_manager/templates/labels/index.html:24
+#: task_manager/templates/statuses/index.html:24
+#: task_manager/templates/tasks/index.html:64
+msgid "Name"
+msgstr "Имя"
 
 #: task_manager/label/views.py:30
 msgid "Label is successfully created"
@@ -49,6 +56,27 @@ msgstr "Невозможно удалить статус, потому что о
 #: task_manager/status/views.py:86
 msgid "Status is successfully deleted"
 msgstr "Статус успешно удален"
+
+#: task_manager/task/models.py:15
+msgid "Description"
+msgstr "Описание"
+
+#: task_manager/task/models.py:24 task_manager/templates/tasks/index.html:37
+#: task_manager/templates/tasks/index.html:67
+#: task_manager/templates/tasks/show.html:33
+msgid "Executor"
+msgstr "Исполнитель"
+
+#: task_manager/task/models.py:30 task_manager/templates/labels/index.html:15
+#: task_manager/templates/tasks/show.html:50
+msgid "Labels"
+msgstr "Метки"
+
+#: task_manager/task/models.py:34 task_manager/templates/tasks/index.html:29
+#: task_manager/templates/tasks/index.html:65
+#: task_manager/templates/tasks/show.html:41
+msgid "Status"
+msgstr "Статус"
 
 #: task_manager/task/views.py:50
 msgid "Task is successfully created"
@@ -150,20 +178,9 @@ msgstr "Вы уверены, что хотите удалить %(label_name)s?"
 msgid "Yes, delete"
 msgstr "Да, удалить"
 
-#: task_manager/templates/labels/index.html:15
-#: task_manager/templates/tasks/show.html:50
-msgid "Labels"
-msgstr "Метки"
-
 #: task_manager/templates/labels/index.html:19
 msgid "Create_label"
 msgstr "Создать метку"
-
-#: task_manager/templates/labels/index.html:24
-#: task_manager/templates/statuses/index.html:24
-#: task_manager/templates/tasks/index.html:64
-msgid "Name"
-msgstr "Имя"
 
 #: task_manager/templates/labels/index.html:25
 #: task_manager/templates/tasks/index.html:68
@@ -229,18 +246,6 @@ msgstr "Удаление задачи"
 #, python-format
 msgid " Are you sure you want to delete %(task_name)s?"
 msgstr "Вы уверены, что хотите удалить %(task_name)s?"
-
-#: task_manager/templates/tasks/index.html:29
-#: task_manager/templates/tasks/index.html:65
-#: task_manager/templates/tasks/show.html:41
-msgid "Status"
-msgstr "Статус"
-
-#: task_manager/templates/tasks/index.html:37
-#: task_manager/templates/tasks/index.html:67
-#: task_manager/templates/tasks/show.html:33
-msgid "Executor"
-msgstr "Исполнитель"
 
 #: task_manager/templates/tasks/index.html:45
 msgid "Label"
