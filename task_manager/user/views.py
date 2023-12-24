@@ -32,6 +32,9 @@ class UserCreateView(View):
             form.save()
             msg_text = _('User is successfully created')
             messages.success(request, msg_text)
+            username = form.cleaned_data['username']
+            # Сохраняем username в сессии
+            request.session['autofill_username'] = username
             return redirect('login')
         return render(request, 'users/create.html', context={
             'form': form,
