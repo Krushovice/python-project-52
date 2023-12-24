@@ -324,7 +324,7 @@ msgstr "У вас нет прав для изменения другого по�
 
 #: task_manager/user/views.py:33
 msgid "User is successfully created"
-msgstr "Пользователь успешно создан"
+msgstr "Пользователь успешно зарегистрирован"
 
 #: task_manager/user/views.py:63
 msgid "User is successfully updated"
