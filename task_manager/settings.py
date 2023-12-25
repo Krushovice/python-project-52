@@ -66,9 +66,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
+if not DEBUG:
+    MIDDLEWARE.append('rollbar.contrib.django.middleware.RollbarNotifierMiddleware') # noqa
 
 ROLLBAR = {
     'access_token': ACCESS_TOKEN,

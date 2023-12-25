@@ -43,7 +43,7 @@
       </select>
     </div>
     <div class="mb-3"><label class="form-label" for="id_label">{% translate "Label" %}</label>
-      <select name="label" class="form-select" id="id_label">
+      <select name="labels" class="form-select" id="id_label" multiple>
           <option value="" selected="">---------</option>
           {% for label in labels %}
             <option value="{{label.id}}">{{label.name}}</option>
