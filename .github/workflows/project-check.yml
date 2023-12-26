@@ -26,6 +26,8 @@ jobs:
         run: |
           make lint
           make test
+        env:
+            SECRET_KEY: secret
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         if: github.ref_name == 'main'
