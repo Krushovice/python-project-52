@@ -10,27 +10,32 @@ from task_manager.status.models import Status
 from task_manager.label.models import Label
 from .forms import TaskForm
 from .filters import TaskFilter
-from django_filters.views import FilterView
 from django.utils.translation import gettext as _
 from django.contrib import messages
 
 
 # Create your views here.
-class IndexView(FilterView):
-    model = Task
-    filterset_class = TaskFilter
-    template_name = 'tasks/index.html'
-    context_object_name = 'tasks'
+class TaskIndexView(LoginRequiredMixin, View):
+    login_url = 'login'
+    template = 'tasks/index.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['executors'] = CustomUser.objects.all()
-        context['statuses'] = Status.objects.all()
-        context['labels'] = Label.objects.all()
-        context['filter'] = TaskFilter(self.request.GET,
-                                       request=self.request,
-                                       queryset=self.get_queryset())
-        return context
+    def get(self, request, *args, **kwargs):
+        tasks = Task.objects.all()
+        statuses = Status.objects.all()
+        executors = CustomUser.objects.all()
+        labels = Label.objects.all()
+        tasks_filtered = TaskFilter(
+            request.GET, queryset=tasks, request=request
+        )
+
+        return render(
+            request, self.template, {
+                'statuses': statuses,
+                'executors': executors,
+                'labels': labels,
+                'filter': tasks_filtered
+                }
+        )
 
 
 class TaskShowView(View):

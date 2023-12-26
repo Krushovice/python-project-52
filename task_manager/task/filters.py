@@ -12,7 +12,7 @@ class TaskFilter(django_filters.FilterSet):
                                               queryset=Status.objects.all())
     executor = django_filters.ModelChoiceFilter(field_name='executor',
                                                 queryset=User.objects.all())
-    labels = django_filters.ModelMultipleChoiceFilter(field_name='labels',
+    label = django_filters.ModelMultipleChoiceFilter(field_name='labels',
                                                       queryset=Label.objects.all())  # noqa
 
     class Meta:
