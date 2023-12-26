@@ -33,8 +33,7 @@ class TaskIndexView(LoginRequiredMixin, View):
                 'statuses': statuses,
                 'executors': executors,
                 'labels': labels,
-                'filter': tasks_filtered
-                }
+                'filter': tasks_filtered}
         )
 
 
