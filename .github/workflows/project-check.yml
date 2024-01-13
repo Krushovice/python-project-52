@@ -25,7 +25,6 @@ jobs:
       - name: Run linter and pytest
         run: |
           make lint
-          make test
         env:
             SECRET_KEY: secret
       - name: Test & publish code coverage

@@ -36,7 +36,7 @@ class LabelCRUDTest(TestCase):
         label_data = self.data['create']
 
         self.client.post(url, label_data)
-        label = Label.objects.last()
+        label = Label.objects.get(name=label_data['name'])
         self.assertEqual(label.name, label_data['name'])
 
     def test_label_read(self):
@@ -45,6 +45,7 @@ class LabelCRUDTest(TestCase):
         label = Label.objects.create(**label_data)
 
         response = self.client.get(url)
+        self.assertNotEqual(response.status_code, 500)
         self.assertIn(label.name, response.content.decode('utf-8'))
 
     def test_status_update(self):
